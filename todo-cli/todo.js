@@ -34,7 +34,7 @@ const todoList = () => {
       return list.map((item, index) =>{
         const textDue = item.dueDate ? item.dueDate == today ? "" : `${item.dueDate}` :"";
         const status = item.completed ? "[x]" : "[ ]";
-        return `${status} ${item.title}${textDue}`;
+        return `${status} ${item.title} ${textDue}`;
       })
       .join("\n");
     }
