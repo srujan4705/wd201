@@ -37,7 +37,7 @@ const todoList = () => {
               : ` ${item.dueDate}`
             : "";
           const completionStatus = item.completed ? "[x]" : "[ ]";
-          return `${completionStatus} ${item.title}${dueText}`;
+          return `${completionStatus} ${item.title} ${dueText}`;
         })
         .join("\n");
   
