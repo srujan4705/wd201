@@ -1,78 +1,77 @@
+const todoList = require("../todo");
 
-const customTodoList = require("../todo");
-
-describe("CustomTodoList Test Suite", () => {
-  let myTodo;
+describe("TodoList Test Suite", () => {
+  let todo;
 
   beforeEach(() => {
-    myTodo = customTodoList();
+    todo = todoList();
   });
 
-  test("Should add a new custom todo", () => {
-    myTodo.addCustomTodo({
-      taskTitle: "New Custom Todo",
-      isCompleted: false,
-      deadline: "2023-12-31",
+  test("We Should create a new todo", () => {
+    todo.add({
+      title: "New Todo",
+      completed: false,
+      dueDate: "2023-12-31",
     });
 
-    expect(myTodo.getList().length).toBe(1);
-    expect(myTodo.getList()[0].taskTitle).toBe("New Custom Todo");
+    expect(todo.all.length).toBe(1);
+    expect(todo.all[0].title).toBe("New Todo");
   });
 
-  test("Should mark a custom todo as completed", () => {
-    myTodo.addCustomTodo({
-      taskTitle: "Incomplete Custom Todo",
-      isCompleted: false,
-      deadline: "2023-12-31",
+  test("Should mark a todo as completed after its completion", () => {
+    todo.add({
+      title: "Incomplete Todo",
+      completed: false,
+      dueDate: "2023-12-31",
     });
 
-    myTodo.completeTask(0);
+    todo.markAsComplete(0);
 
-    expect(myTodo.getList()[0].isCompleted).toBe(true);
+    expect(todo.all[0].completed).toBe(true);
   });
 
-  test("Should retrieve overdue custom todos", () => {
-    const today = new Date().toISOString().split("T")[0];
+  test("Should retrieve overdue items after the time is over", () => {
+    
 
-    myTodo.addCustomTodo({
-      taskTitle: "Overdue Custom Todo",
-      isCompleted: false,
-      deadline: "2023-01-01",
+    todo.add({
+      title: "Overdue Todo",
+      completed: false,
+      dueDate: "2023-01-01",
     });
 
-    const overdueItems = myTodo.getOverdueTasks();
+    const allOverDueThings = todo.overdue();
 
-    expect(overdueItems.length).toBe(1);
-    expect(overdueItems[0].taskTitle).toBe("Overdue Custom Todo");
+    expect(allOverDueThings.length).toBe(1);
+    expect(allOverDueThings[0].title).toBe("Overdue Todo");
   });
 
-  test("Should retrieve custom todos due today", () => {
-    const today = new Date().toISOString().split("T")[0];
+  test("Should retrieve due today items which are mentioned", () => {
+    const todayDate = new Date().toISOString().split("T")[0];
 
-    myTodo.addCustomTodo({
-      taskTitle: "Due Today Custom Todo",
-      isCompleted: false,
-      deadline: today,
+    todo.add({
+      title: "Due Today Todo",
+      completed: false,
+      dueDate: todayDate,
     });
 
-    const dueTodayItems = myTodo.getTasksDueToday();
+    const todayDueThings = todo.dueToday();
 
-    expect(dueTodayItems.length).toBe(1);
-    expect(dueTodayItems[0].taskTitle).toBe("Due Today Custom Todo");
+    expect(todayDueThings.length).toBe(1);
+    expect(todayDueThings[0].title).toBe("Due Today Todo");
   });
 
-  test("Should retrieve custom todos due later", () => {
-    const today = new Date().toISOString().split("T")[0];
+  test("Should retrieve due later items", () => {
+    
 
-    myTodo.addCustomTodo({
-      taskTitle: "Due Later Custom Todo",
-      isCompleted: false,
-      deadline: "2023-12-31",
+    todo.add({
+      title: "Due Later Todo",
+      completed: false,
+      dueDate: "2023-12-31",
     });
 
-    const dueLaterItems = myTodo.getTasksDueLater();
+    const dueLaterThings = todo.dueLater();
 
-    expect(dueLaterItems.length).toBe(1);
-    expect(dueLaterItems[0].taskTitle).toBe("Due Later Custom Todo");
+    expect(dueLaterThings.length).toBe(1);
+    expect(dueLaterThings[0].title).toBe("Due Later Todo");
   });
 });
