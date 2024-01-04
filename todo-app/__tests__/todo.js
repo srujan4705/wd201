@@ -31,6 +31,7 @@ describe("Todo test suite", () => {
     const parsedResponse = JSON.parse(response.text);
     expect(parsedResponse.id).toBeDefined();
   });
+  
   test("Mark a todo as complete", async () => {
     const response = await agent.post("/todos").send({
       title: "Buy milk",
