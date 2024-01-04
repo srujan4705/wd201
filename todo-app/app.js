@@ -13,7 +13,7 @@ app.get("/todos", async (request, response) => {
     return response.json(todos);
   } catch (error) {
     console.log(error);
-    return response.status(500).json({ error: "Internal Server Error" });
+    return response.status(422).json({ error: "Internal Server Error" });
   }
 });
 
@@ -44,22 +44,19 @@ app.put("/todos/:id/markAsCompleted", async (request, response) => {
   }
 });
 
-app.delete("/todos/:id", async (request, response) => {
-    console.log("Deleting a todo by ID:", request.params.id);
+app.delete("/todos/:id", async function (request, response) {
+    console.log("We have to delete a Todo with ID: ", request.params.id);
     try {
-      const result = await Todo.destroy({
-        where: { id: request.params.id },
-      });
-      if (result > 0) {
-        // Deletion was successful
-        return response.json({ success: true });
+      const todo = await Todo.remove(request.params.id);
+  
+      if (todo) {
+        response.sendStatus(200); 
       } else {
-        // No rows were deleted, indicating the todo with the given ID doesn't exist
-        return response.status(404).json({ success: false, error: "Todo not found" });
+        response.status(422).json({ error: "Failed to delete the Todo" });
       }
     } catch (error) {
-      console.log(error);
-      return response.status(500).json({ error: "Internal Server Error" });
+      console.error(error);
+      response.status(422).json({ error: "Internal Server Error" });
     }
   });
   
