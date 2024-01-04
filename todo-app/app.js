@@ -45,18 +45,18 @@ app.put("/todos/:id/markAsCompleted", async (request, response) => {
 });
 
 app.delete("/todos/:id", async (request, response) => {
-  console.log("Delete a todo by ID:", response.params.id);
-  try {
-    const result = await Todo.destroy({
-      where: {
-        id: request.params.id,
-      },
-    });
-    return response.json(result === 1); // Returns true if deletion was successful, false otherwise
-  } catch (error) {
-    console.log(error);
-    return response.status(500).json({ error: "Internal Server Error" });
-  }
-});
+    console.log("Deleting a todo by ID:", request.params.id);
+    try {
+      const result = await Todo.destroy({
+        where: { id: request.params.id },
+      });
+  
+      return response.json({ success: result > 0 }); // Returns true if deletion was successful, otherwise false
+    } catch (error) {
+      console.log(error);
+      return response.status(500).json({ error: "Internal Server Error" });
+    }
+  });
+  
 
 module.exports = app;
