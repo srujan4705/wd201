@@ -44,21 +44,20 @@ app.put("/todos/:id/markAsCompleted", async (request, response) => {
   }
 });
 
-app.delete("/todos/:id", async function (request, response) {
-    console.log("We have to delete a Todo with ID: ", request.params.id);
-    try {
-      const todo = await Todo.remove(request.params.id);
-  
-      if (todo) {
-        response.sendStatus(200); 
-      } else {
-        response.status(422).json({ error: "Failed to delete the Todo" });
+app.delete(
+    "/todos/:id",
+    connectEnsLog.ensureLoggedIn(),
+    async (request, response) => {
+      const loggedInUser = request.user.id;
+      console.log("We have to delete a todo with ID: ", request.params.id);
+      try {
+        const status = await Todo.remove(request.params.id, loggedInUser);
+        return response.json(status ? true : false);
+      } catch (err) {
+        return response.status(422).json(err);
       }
-    } catch (error) {
-      console.error(error);
-      response.status(422).json({ error: "Internal Server Error" });
     }
-  });
+  );
   
 
 module.exports = app;
