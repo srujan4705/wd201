@@ -3,9 +3,27 @@
 // eslint-disable-next-line no-undef
 const express = require("express");
 const app = express();
+const path = require("path");
 const bodyParser = require("body-parser");
 app.use(bodyParser.json());
 const { Todo } = require("./models");
+app.set("view engine","ejs");
+app.get("/", async(request,response) => {
+  const allTodos = await Todo.getTodos();
+  if (request.accepts("html")){
+    response.render('index',{
+      allTodos
+    });
+    
+  } else {
+    response.json({
+      allTodos
+    })
+
+  }
+});
+
+app.use(express.static(path.join(__dirname,'public')));
 
 app.get("/todos", async (request, response) => {
   try {
@@ -44,20 +62,20 @@ app.put("/todos/:id/markAsCompleted", async (request, response) => {
   }
 });
 
-app.delete(
-    "/todos/:id",
-    connectEnsLog.ensureLoggedIn(),
-    async (request, response) => {
-      const loggedInUser = request.user.id;
-      console.log("We have to delete a todo with ID: ", request.params.id);
-      try {
-        const status = await Todo.remove(request.params.id, loggedInUser);
-        return response.json(status ? true : false);
-      } catch (err) {
-        return response.status(422).json(err);
-      }
+app.delete("/todos/:id", async function (request, response) {
+    console.log("We have to delete a Todo with ID: ", request.params.id);
+    // FILL IN YOUR CODE HERE
+    try {
+      const todo = await Todo.destroy({
+        where: {
+          id: request.params.id,
+        },
+      });
+      response.send(todo ? true : false);
+    } catch (error) {
+      console.error(error);
+      response.status(422).json({ error: "Internal Server Error" });
     }
-  );
-  
+});
 
 module.exports = app;
