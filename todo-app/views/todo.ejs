@@ -10,81 +10,13 @@
   <link rel="stylesheet" href="./css/styles.css">
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <!-- <script>
-    var token = document.querySelector('meta[name="csrf-token"]').getAttribute("content")
-    function remove(id) {r
-      fetch(/todos/${id}, {
-        method: "delete",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          "_csrf": token
-        })
-      })
-        .then((res) => {
-          if (res.ok) {
-            window.location.reload();
-          }
-        })
-        .catch((err) => {
-          console.log("Error:", err);
-        });
-    }
-
-    function setCompletionStatus(id, bool) {
-      console.log('Setting status for todo:', id, 'to', bool);
-
-      fetch(/todos/${parseInt(id)}/${bool === true}, {
-        method: "put",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          "_csrf": token
-        })
-      })
-        .then((res) => {
-          if (res.ok) {
-            console.log('Todo updated successfully');
-            window.location.reload() // Update checkbox state based on server response
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-
-
-
-    function update(id) {
-      fetch(/todos/${parseInt(id)}, {
-        method: "put",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          "_csrf": token
-        })
-      })
-        .then((res) => {
-          if (res.ok) {
-            window.location.reload();
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-
-  </script> -->
+ 
 </head>
 
 <body>
   <div class="grid grid-cols`-6">
     <div class="col-start-3 col-span-2 ">
       <%- include('header.ejs') %>
-      <!-- <a href="/signout" class="text-green-600">Signout</a> -->
         <form action="/todos" method="post">
           <div class="flex gap-2 p-4 ">
             <div class="flex-auto">
