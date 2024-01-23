@@ -7,7 +7,10 @@ const path = require("path");
 const bodyParser = require("body-parser");
 app.use(bodyParser.json());
 const { Todo } = require("./models");
+app.use(bodyParser.urlencoded({ extended: false }))
 app.set("view engine","ejs");
+
+
 app.get("/", async(request,response) => {
   const allTodos = await Todo.getTodos();
   if (request.accepts("html")){
@@ -37,13 +40,14 @@ app.get("/todos", async (request, response) => {
 
 app.post("/todos", async (request, response) => {
   console.log("creating a todo", request.body);
+  const {title , dueDate } = request.body
   try {
-    const todo = await Todo.addTodo({
-      title: request.body.title,
-      dueDate: request.body.dueDate,
+    const todo = await Todo.create({
+      title: title,
+      dueDate: dueDate,
       completed: false,
     });
-    return response.json(todo);
+    return response.redirect("/");
   } catch (error) {
     console.log(error);
     return response.status(422).json(error);
