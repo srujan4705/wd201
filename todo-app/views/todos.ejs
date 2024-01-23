@@ -14,10 +14,8 @@
                   <% } %>
                     <% }) %>
                       
-                        <h5>Overdue<span class="bg-gray-100 " id="count-overdue">
-                            <%= Ocount %>
-                          </span>
-                        </h5>
+                        <h5>Overdue</h5>  <span class="bg-gray-100 " id="count-overdue"><%= Ocount %></span>
+                        
                         <ul class="list-none">
                           <% for( let index=0; index < allTodos.length; index++ ) { %>
                             <% const dueDate=new Date(allTodos[index].dueDate); %>
@@ -50,10 +48,8 @@
                         </ul>
                       
                       
-                        <h5>Due Today<span class="bg-gray-100 " id="count-due-today">
-                              <%= Tcount %>
-                            </span>
-                        </h5>
+                        <h5>Due Today</h5>   <span class="bg-gray-100 " id="count-due-today"><%= Tcount %></span>
+                        
                         <ul class="list-none">
                             <% for (let index=0; index < allTodos.length; index++) { %>
                               <% const dueDate=new Date(allTodos[index].dueDate); %>
@@ -87,10 +83,8 @@
                       
                 
  
-                          <h5>Due Later<span class="bg-gray-100 " id="count-due-later">
-                              <%=Lcount %>
-                            </span>
-                          </h5>
+                          <h5>Due Later</h5> <span class="bg-gray-100 " id="count-due-later"> <%=Lcount %></span>
+                          
                           <ul class="list-none">
                             <% for (let index=0; index < allTodos.length; index++) { %>
                               <% const dueDate=new Date(allTodos[index].dueDate); %>
