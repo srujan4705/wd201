@@ -11,6 +11,35 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+     
+    }
+
+    static async remove(id) {
+      try {
+        const todo = await Todo.destroy({
+          where: {
+            id: id,
+          },
+        });
+        return todo > 0;
+      } catch (error) {
+        console.error(error);
+        throw error; 
+      }
+    }
+    
+    static async getAllTodos(userId) {
+      try {
+        const todos = await this.findAll({
+          where: {
+            userId: userId,
+          },
+        });
+        return todos;
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
     }
 
     static addTodo({ title, dueDate }) {
@@ -19,9 +48,15 @@ module.exports = (sequelize, DataTypes) => {
     static getTodos() {
       return this.findAll();
     }
-
-    markAsCompleted() {
+    async statusChange(status){
+      console.log(this)
+      return this.update({completed : !this.completed})
+    }
+    async markAsCompleted() {
       return this.update({ completed: true });
+    }
+    async markAsIncompleted() {
+      return this.update({ completed: false });
     }
   }
   Todo.init(
@@ -29,6 +64,7 @@ module.exports = (sequelize, DataTypes) => {
       title: DataTypes.STRING,
       dueDate: DataTypes.DATEONLY,
       completed: DataTypes.BOOLEAN,
+      
     },
     {
       sequelize,
