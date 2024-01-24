@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 const express = require("express");
 const app = express();
-const { Todo,Users } = require("./models");
+const { Todo,User } = require("./models");
 
 const bodyParser = require("body-parser");
 var csrf = require("tiny-csrf");
@@ -51,7 +51,7 @@ passport.use(new LocalStrategy({
   usernameField:'email',
   passwordField:'password'
 },(username,password,done)=>{
-  Users.findOne({ where: { email: username } })
+  User.findOne({ where: { email: username } })
   .then(async function (user) {
     const result = await bcrypt.compare(password, user.password);
     if (result) {
@@ -71,7 +71,7 @@ passport.serializeUser((user,done)=>{
 });
 
 passport.deserializeUser((id,done)=>{
-  Users.findByPk(id)
+  User.findByPk(id)
   .then(user=>{
     done(null,user)
   })
@@ -137,7 +137,7 @@ app.post("/users",async (request,response)=>{
     return response.redirect("/signup");
   }
   try{
-    const user=await Users.create({
+    const user=await User.create({
       firstName:request.body.firstName,
       lastName: request.body.lastName,
       email: request.body.email,

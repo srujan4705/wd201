@@ -1,19 +1,22 @@
 'use strict';
 
+const { query } = require('express');
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    queryInterface.addColumn('Todos' , 'userId' , {
+    await queryInterface.addColumn('Todos','userId',{
       type: Sequelize.DataTypes.INTEGER
     })
-    queryInterface.addConstraint('Todos' , {
+
+    await queryInterface.addConstraint('Todos',{
       fields:['userId'],
       type:'foreign key',
       references:{
-        table: 'users',
+        table:'Users',
         field:'id'
       }
-    })
+    });
     /**
      * Add altering commands here.
      *
@@ -23,7 +26,7 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
-    queryInterface.removeColumn('Todos' , 'userId')
+    await queryInterface.renameColumn('Todos','userId')
     /**
      * Add reverting commands here.
      *

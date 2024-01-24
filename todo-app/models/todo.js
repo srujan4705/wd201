@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     // eslint-disable-next-line no-unused-vars
     static associate(models) {
-      Todo.belongsTo(models.Users,{
+      Todo.belongsTo(models.User,{
         foreignKey:'userId'
       });
       // define association here
