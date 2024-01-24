@@ -11,17 +11,22 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Todo.belongsTo(models.Users, {
+        foreignKey: "userId",
+      });
     }
 
     static addTodo({ title, dueDate }) {
       return this.create({ title: title, dueDate: dueDate, completed: false });
     }
-    static getTodos() {
-      return this.findAll();
+    static getTodos(userId) {
+      return this.findAll({where:{
+        userId:userId
+      }});
     }
-    async statusChange(){
-      console.log(this)
-      return this.update({completed : !this.completed})
+    async statusChange() {
+      console.log(this);
+      return this.update({ completed: !this.completed });
     }
     markAsCompleted() {
       return this.update({ completed: true });
@@ -36,7 +41,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "Todo",
-    },
+    }
   );
   return Todo;
 };
