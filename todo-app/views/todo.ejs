@@ -4,7 +4,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="csrf-token" content="<%= csrfToken %>">
   <title>Todo manager</title>
   <link rel="stylesheet" href="./css/styles.css">
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
@@ -17,9 +16,7 @@
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({
-          "_csrf": token
-        })
+     
       })
         .then((res) => {
           if (res.ok) {
@@ -39,9 +36,7 @@
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({
-          "_csrf": token
-        })
+      
       })
         .then((res) => {
           if (res.ok) {
@@ -62,9 +57,7 @@
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({
-          "_csrf": token
-        })
+        
       })
         .then((res) => {
           if (res.ok) {
@@ -89,7 +82,7 @@
             <div class="flex-auto">
               <input type="text" placeholder="what's next?" required
                 class="border border-gray-300 rounded text-grey-900 w-full p-2 text-sm" name="title" />
-              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+              
             </div>
             <div class="flex-auto">
               <input type="date" name="dueDate" required
