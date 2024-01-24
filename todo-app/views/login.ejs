@@ -1,39 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Todo manager</title>
-  <meta name="csrf-token" content="<%= csrfToken %>">
-  <link rel="stylesheet" href="/css/styles.css">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> <%= title %> </title>
+    <meta name="csrf-token" content="<%= csrfToken %>" />
+    <link rel="stylesheet" href="./css/styles.css">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
-  <div class="grid grid-cols-6">
-    <div class="col-start-3 col-span-2 ">
-      <%- include('header.ejs') %>
-        <h1 class="py-4">Login</h1>
-        <form action="/session" method="post">
-          <div class="py-3">
-            <label for="email">Email</label>
-            <input required type="email" name="email"
-              class="border border-black-500 text-black-800 rounded p-2 text-bg-primary text-gray-900 w-full rounded p-2">
-            <input required type="hidden" name="_csrf" value="<%= csrfToken %>">
-          </div>
-
-          <div class="py-3">
-            <label for="password">Password</label>
-            <input required type="password" name="password"
-              class="border border-black-300 text-black-900 rounded p-3 w-full">
-          </div>
-          <div class="py-3">
-            <button type="submit"
-              class="text-white bg-blur-600 hover:bg-blue-800 text-green-600 font-medium rounded px-5 py-2">login</button>
-          </div>
-        </form>
+    <div class="grid grid-cols-6">
+        <div class="col-start-3 col-span-2">
+            <%- include('header.ejs') %>
+            <h4 class="py-4">Login as a new user</h4>
+            <form action="/session" method="post">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <div class="py-3">
+                    <label for="email">Email:</label>
+                    <input type="email" name="email" class="border border-gray-300 rounded p-2 w-full">
+                </div>
+                <div class="py-3">
+                    <label for="password">Password:</label>
+                    <input type="password" name="password" class="border border-gray-300 rounded p-2 w-full">
+                </div>
+                <div class="py-3">
+                    <button type="submit" class="text-white bg-green-600 hover:bg-green-800 font-medium rounded px-5 py-2">Sign in</button>
+                </div>
+            </form>
+            <% if(messages && messages.error && messages.error.length > 0)  { %>
+                <% for(var i=0; i<messages.error.length; i++) { %>
+                        <li> <%= messages.error[i] %></li>
+                <% } %>
+              <% } %>
+        </div>
     </div>
-  </div>
 </body>
-
 </html>
