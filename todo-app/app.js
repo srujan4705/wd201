@@ -5,17 +5,24 @@ const express = require("express");
 const app = express();
 const path = require("path");
 const bodyParser = require("body-parser");
-app.use(bodyParser.json());
-const { Todo } = require("./models");
-app.use(bodyParser.urlencoded({ extended: false }))
-app.set("view engine","ejs");
 
+app.use(bodyParser.json());
+app.use(express.urlencoded({ extended : false}));
+var csrf = require("tiny-csrf");
+var cookieParser = require("cookie-parser");
+const { Todo } = require("./models");
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.set("view engine","ejs");
+app.use(cookieParser("shh! some secret string"));
+app.use(csrf("this_should_be_32_charecter_long",["PUT","DELETE"]))
 
 app.get("/", async(request,response) => {
   const allTodos = await Todo.getTodos();
   if (request.accepts("html")){
     response.render('todo',{
-      allTodos
+      allTodos,
+      csrfToken: request.csrfToken(),
     });
     
   } else {
@@ -32,6 +39,7 @@ app.get("/todos", async (request, response) => {
   try {
     const todos = await Todo.findAll();
     return response.json(todos);
+
   } catch (error) {
     console.log(error);
     return response.status(422).json({ error: "Internal Server Error" });
@@ -54,11 +62,12 @@ app.post("/todos", async (request, response) => {
   }
 });
 
-app.put("/todos/:id/markAsCompleted", async (request, response) => {
+app.put("/todos/:id", async (request, response) => {
   console.log("We have to update a todo with ID:", request.params.id);
   const todo = await Todo.findByPk(request.params.id);
   try {
-    const updateTodo = await todo.markAsCompleted();
+    // write a new function called set completion status
+    const updateTodo = await todo.statusChange();
     return response.json(updateTodo);
   } catch (error) {
     console.log(error);

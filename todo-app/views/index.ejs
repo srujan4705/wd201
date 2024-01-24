@@ -2,6 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="csrf-token" content="<%= csrfToken %>">
+    <title>Todo manager</title>
+
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href = "./css/styles.css" rel="stylesheet">
     <title>Document</title>
@@ -10,6 +14,7 @@
     <%- include('header.ejs') %>
     <%- include('footer.ejs') %>
     <%- include('todos.ejs') %>
+   
 
     
 </body>

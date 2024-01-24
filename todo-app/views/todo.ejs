@@ -5,6 +5,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Todo manager</title>
+  <meta name="csrf-token" content="<%= csrfToken %>">
+
   <link rel="stylesheet" href="./css/styles.css">
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
@@ -16,7 +18,9 @@
         headers: {
           "Content-Type": "application/json"
         },
-     
+        body: JSON.stringify({
+          "_csrf": token
+        })
       })
         .then((res) => {
           if (res.ok) {
@@ -36,6 +40,9 @@
         headers: {
           "Content-Type": "application/json"
         },
+        body: JSON.stringify({
+          "_csrf": token
+        })
       
       })
         .then((res) => {
@@ -57,6 +64,9 @@
         headers: {
           "Content-Type": "application/json"
         },
+        body: JSON.stringify({
+          "_csrf": token
+        })
         
       })
         .then((res) => {
@@ -78,6 +88,7 @@
       <%- include('header.ejs') %>
       <a href="/signout" class="text-green-600">Signout</a>
         <form action="/todos" method="post">
+          <input type = "hidden" name = "_csrf" value="<%= csrfToken %>" />
           <div class="flex gap-2 p-4 ">
             <div class="flex-auto">
               <input type="text" placeholder="what's next?" required
